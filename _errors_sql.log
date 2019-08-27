@@ -1,0 +1,3 @@
+[27-Aug-2019 10:02:32]  > Could not prepare : Table 'test.tree_struct' doesn't exist < SELECT s.id, s.lft, s.rgt, s.lvl, s.pid, s.pos, d.nm FROM tree_struct s, tree_data d WHERE s.id = d.id AND s.pid = 0 ORDER BY s.pos >
+[27-Aug-2019 10:02:40]  > Could not prepare : Table 'test.tree_struct' doesn't exist < SELECT s.id, s.lft, s.rgt, s.lvl, s.pid, s.pos, d.nm FROM tree_struct s, tree_data d WHERE s.id = d.id AND s.pid = 0 ORDER BY s.pos >
+[27-Aug-2019 10:12:04]  > Could not prepare : Table 'test.tree_struct' doesn't exist < SELECT s.id, s.lft, s.rgt, s.lvl, s.pid, s.pos, d.nm FROM tree_struct s, tree_data d WHERE s.id = d.id AND s.pid = 0 ORDER BY s.pos >
