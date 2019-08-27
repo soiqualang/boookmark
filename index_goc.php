@@ -73,7 +73,7 @@ if(isset($_GET['operation'])) {
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<title>Boookmark by soiqualang</title>
+		<title>Title</title>
 		<meta name="viewport" content="width=device-width" />
 		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.3/themes/default/style.min.css" />
 		<style>
