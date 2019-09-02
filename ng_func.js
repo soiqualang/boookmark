@@ -2,6 +2,14 @@ var app = angular.module('myApp', []);
 
 app.controller('appCtrl', function ($scope, $rootScope, $timeout, $window, $http) {
 	var httpconfig = { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' };
+
+	$scope.getFile=function(){
+		$http.get("data.php").then(function (response) {
+			$scope.names=response.data;
+		});
+	}
+
+
 	
 	$scope.showhighlight=false;
 	$scope.showhighlight_label='Chi tiết';

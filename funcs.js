@@ -12,3 +12,4 @@ function getobj(id){
     var giatri=document.getElementById(id);
     return giatri;
 }
+

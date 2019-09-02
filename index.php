@@ -285,8 +285,13 @@ if(isset($_GET['operation'])) {
 						var nodetype=data.node.type;
 						if(nodetype=='file'){
 							var nodeId=data.node.id;
-							var txt1='Noi dung file '+nodeId+' la';
-							$('#data .default').text(txt1).show();
+
+							$.get("data.php?id="+nodeId, function(data, status){
+								//alert("Data: " + data + "\nStatus: " + status);
+								var txt1='Noi dung file '+nodeId+' la'+data;
+								$('#data .default').text(txt1).show();
+							});
+							
 						}else{
 							$.get('?operation=get_content&id=' + data.selected.join(':'), function (d) {
 								//console.log(d.content);
