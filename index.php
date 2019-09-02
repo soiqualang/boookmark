@@ -83,9 +83,21 @@ if(isset($_GET['operation'])) {
 		#data { margin-left:320px; }
 		#data textarea { margin:0; padding:0; height:100%; width:100%; border:0; background:white; display:block; line-height:18px; }
 		#data, #code { font: normal normal normal 12px/18px 'Consolas', monospace !important; }
+
+		.head_app{
+			margin: 5px;
+		}
 		</style>
+		<!-- AngularJS -->
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
 	</head>
-	<body>
+	<body ng-app="myApp" ng-controller="appCtrl">
+		<div class="head_app">
+			<input type="text" placeholder="Tìm kiếm...">
+			<input type="button" value="Tìm">
+		</div>
+		<hr>
 		<div id="container" role="main">
 			<div id="tree"></div>
 			<div id="data">
@@ -98,6 +110,9 @@ if(isset($_GET['operation'])) {
 
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.3/jstree.min.js"></script>
+
+		<script src="ng_func.js"></script>
+		<script src="funcs.js"></script>
 		<script>
 		$(function () {
 			$(window).resize(function () {
@@ -158,7 +173,12 @@ if(isset($_GET['operation'])) {
 				.on('changed.jstree', function (e, data) {
 					if(data && data.selected && data.selected.length) {
 						$.get('?operation=get_content&id=' + data.selected.join(':'), function (d) {
-							$('#data .default').text(d.content).show();
+							//console.log(d.content);
+							//$('#data .default').text(d.content).show();
+							var txt1=d.content+' hahahahaha';
+							$('#data .default').text(txt1).show();
+
+							
 						});
 					}
 					else {
@@ -167,6 +187,8 @@ if(isset($_GET['operation'])) {
 					}
 				});
 		});
+
+		//getobj('data').innerHTML='hahahahahaha';
 		</script>
 	</body>
 </html>
