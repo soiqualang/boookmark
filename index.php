@@ -281,14 +281,21 @@ if(isset($_GET['operation'])) {
 				})
 				.on('changed.jstree', function (e, data) {
 					if(data && data.selected && data.selected.length) {
-						$.get('?operation=get_content&id=' + data.selected.join(':'), function (d) {
-							//console.log(d.content);
-							//$('#data .default').text(d.content).show();
-							var txt1=d.content+' hahahahaha';
-							$('#data .default').text(txt1).show();
 
-							
-						});
+						var nodetype=data.node.type;
+						if(nodetype=='file'){
+							var nodeId=data.node.id;
+							var txt1='Noi dung file '+nodeId+' la';
+							$('#data .default').text(txt1).show();
+						}else{
+							$.get('?operation=get_content&id=' + data.selected.join(':'), function (d) {
+								//console.log(d.content);
+								//$('#data .default').text(d.content).show();
+								var txt1=d.content+' hahahahaha';
+								$('#data .default').text(txt1).show();
+							});
+						}
+
 					}
 					else {
 						$('#data .content').hide();
