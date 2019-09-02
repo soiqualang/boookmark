@@ -1,3 +1,9 @@
 [27-Aug-2019 10:02:32]  > Could not prepare : Table 'test.tree_struct' doesn't exist < SELECT s.id, s.lft, s.rgt, s.lvl, s.pid, s.pos, d.nm FROM tree_struct s, tree_data d WHERE s.id = d.id AND s.pid = 0 ORDER BY s.pos >
 [27-Aug-2019 10:02:40]  > Could not prepare : Table 'test.tree_struct' doesn't exist < SELECT s.id, s.lft, s.rgt, s.lvl, s.pid, s.pos, d.nm FROM tree_struct s, tree_data d WHERE s.id = d.id AND s.pid = 0 ORDER BY s.pos >
 [27-Aug-2019 10:12:04]  > Could not prepare : Table 'test.tree_struct' doesn't exist < SELECT s.id, s.lft, s.rgt, s.lvl, s.pid, s.pos, d.nm FROM tree_struct s, tree_data d WHERE s.id = d.id AND s.pid = 0 ORDER BY s.pos >
+[02-Sep-2019 12:31:07]  > Could not prepare : Unknown column 'type' in 'field list' <INSERT INTO tree_struct (id,lft,rgt,lvl,pid,pos,`type`) VALUES (?,?,?,?,?,?,default)>
+[02-Sep-2019 12:31:15]  > Could not prepare : Unknown column 'type' in 'field list' <INSERT INTO tree_struct (id,lft,rgt,lvl,pid,pos,`type`) VALUES (?,?,?,?,?,?,default)>
+[02-Sep-2019 12:31:21]  > Could not prepare : Unknown column 'type' in 'field list' <INSERT INTO tree_struct (id,lft,rgt,lvl,pid,pos,`type`) VALUES (?,?,?,?,?,?,default)>
+[02-Sep-2019 12:42:23]  > Could not prepare : Unknown column 'type' in 'field list' <INSERT INTO tree_struct (id,lft,rgt,lvl,pid,pos,type) VALUES (?,?,?,?,?,?,'default')>
+[02-Sep-2019 12:43:12]  > Could not prepare : Unknown column 'type' in 'field list' <INSERT INTO tree_struct (id,lft,rgt,lvl,pid,pos,type) VALUES (?,?,?,?,?,?,'default')>
+[02-Sep-2019 12:48:43]  > Could not prepare : Unknown column 'type' in 'field list' <INSERT INTO tree_struct (id,lft,rgt,lvl,pid,pos,type) VALUES (?,?,?,?,?,?,'default')>

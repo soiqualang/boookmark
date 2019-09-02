@@ -54,6 +54,41 @@ class tree
 			$node = $this->get_node($id);
 			$sql = "
 				SELECT
+					*
+				FROM
+					".$this->options['structure_table']." s,
+					".$this->options['data_table']." d
+				WHERE
+					s.".$this->options['structure']['id']." = d.".$this->options['data2structure']." AND
+					s.".$this->options['structure']['left']." > ".(int)$node[$this->options['structure']['left']]." AND
+					s.".$this->options['structure']['right']." < ".(int)$node[$this->options['structure']['right']]."
+				ORDER BY
+					s.".$this->options['structure']['left']."
+			";
+		}
+		else {
+			$sql = "
+				SELECT
+					*
+				FROM
+					".$this->options['structure_table']." s,
+					".$this->options['data_table']." d
+				WHERE
+					s.".$this->options['structure']['id']." = d.".$this->options['data2structure']." AND
+					s.".$this->options['structure']['parent_id']." = ".(int)$id."
+				ORDER BY
+					s.".$this->options['structure']['position']."
+			";
+		}
+		return $this->db->all($sql);
+	}
+
+	/* public function get_children($id, $recursive = false) {
+		$sql = false;
+		if($recursive) {
+			$node = $this->get_node($id);
+			$sql = "
+				SELECT
 					s.".implode(", s.", $this->options['structure']).",
 					d.".implode(", d.", $this->options['data'])."
 				FROM
@@ -83,7 +118,7 @@ class tree
 			";
 		}
 		return $this->db->all($sql);
-	}
+	} */
 
 	public function get_path($id) {
 		$node = $this->get_node($id);
@@ -107,7 +142,7 @@ class tree
 		return $sql ? $this->db->all($sql) : false;
 	}
 
-	public function mk($parent, $position = 0, $data = array()) {
+	public function mk($parent, $position = 0, $data = array(),$type) {
 		$parent = (int)$parent;
 		if($parent == 0) { throw new Exception('Parent is 0'); }
 		$parent = $this->get_node($parent, array('with_children'=> true));
@@ -198,6 +233,7 @@ class tree
 		foreach($sql as $k => $v) {
 			try {
 				$this->db->query($v, $par[$k]);
+				//echo $v.'<br>';
 			} catch(Exception $e) {
 				$this->reconstruct();
 				throw new Exception('Could not create');
@@ -205,7 +241,7 @@ class tree
 		}
 		if($data && count($data)) {
 			$node = $this->db->insert_id();
-			if(!$this->rn($node,$data)) {
+			if(!$this->rn($node,$data,$type)) {
 				$this->rm($node);
 				throw new Exception('Could not rename after create');
 			}
@@ -595,7 +631,7 @@ class tree
 		return true;
 	}
 
-	public function rn($id, $data) {
+	public function rn($id, $data,$type) {
 		if(!(int)$this->db->one('SELECT 1 AS res FROM '.$this->options['structure_table'].' WHERE '.$this->options['structure']['id'].' = '.(int)$id)) {
 			throw new Exception('Could not rename non-existing node');
 		}
@@ -606,15 +642,17 @@ class tree
 			}
 		}
 		if(count($tmp)) {
+			$type==''?$type:'folder';
 			$tmp[$this->options['data2structure']] = $id;
 			$sql = "
 				INSERT INTO
-					".$this->options['data_table']." (".implode(',', array_keys($tmp)).")
-					VALUES(?".str_repeat(',?', count($tmp) - 1).")
+					".$this->options['data_table']." (".implode(',', array_keys($tmp)).",type)
+					VALUES(?".str_repeat(',?', count($tmp) - 1).",'".$type."')
 				ON DUPLICATE KEY UPDATE
 					".implode(' = ?, ', array_keys($tmp))." = ?";
 			$par = array_merge(array_values($tmp), array_values($tmp));
 			try {
+				//echo $sql;
 				$this->db->query($sql, $par);
 			}
 			catch(Exception $e) {
@@ -926,7 +964,7 @@ class tree
 		return true;
 	}
 
-	public function res($data = array()) {
+	public function res($data = array(),$type) {
 		if(!$this->db->query("TRUNCATE TABLE ".$this->options['structure_table'])) { return false; }
 		if(!$this->db->query("TRUNCATE TABLE ".$this->options['data_table'])) { return false; }
 		$sql = "INSERT INTO ".$this->options['structure_table']." (".implode(",", $this->options['structure']).") VALUES (?".str_repeat(',?', count($this->options['structure']) - 1).")";
@@ -960,7 +998,7 @@ class tree
 		foreach($this->options['structure'] as $k => $v) {
 			if(!isset($data[$k])) { $data[$k] = null; }
 		}
-		return $this->rn($id, $data);
+		return $this->rn($id, $data,$type);
 	}
 
 	public function dump() {
